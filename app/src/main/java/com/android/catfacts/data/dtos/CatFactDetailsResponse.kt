@@ -1,4 +1,4 @@
-package com.android.catfacts.data.model
+package com.android.catfacts.data.dtos
 
 data class CatFactDetailsResponse(
     val text: String,

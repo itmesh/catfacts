@@ -1,4 +1,4 @@
-package com.android.catfacts.data.api
+package com.android.catfacts.core.network
 
 abstract class Failure : Exception()
 

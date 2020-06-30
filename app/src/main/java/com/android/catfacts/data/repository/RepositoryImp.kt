@@ -2,7 +2,7 @@ package com.android.catfacts.data.repository
 
 import com.android.catfacts.core.network.Result
 import com.android.catfacts.data.api.Api
-import com.android.catfacts.data.api.ServerFailure
+import com.android.catfacts.core.network.ServerFailure
 
 class RepositoryImp(private val api: Api) : Repository {
     override suspend fun getCatFacts(): Result<MutableList<String>> {

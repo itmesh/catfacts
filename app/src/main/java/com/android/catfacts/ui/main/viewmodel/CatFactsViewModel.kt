@@ -27,7 +27,7 @@ class CatFactsViewModel : ViewModel() {
 
     fun fetchCatFacts() {
         loadingLiveData.postValue(true)
-        GlobalScope.launch {
+        scope.launch {
             when (val result = repository.getCatFacts()) {
                 is Result.Success -> {
                     errorLiveData.postValue(false)
@@ -43,4 +43,9 @@ class CatFactsViewModel : ViewModel() {
     }
 
     fun cancelAllRequest() = coroutineContext.cancel()
+
+    override fun onCleared() {
+        super.onCleared()
+        if (coroutineContext.isActive) cancelAllRequest()
+    }
 }

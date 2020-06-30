@@ -1,5 +1,6 @@
 package com.android.catfacts.ui.main.view
 
+import CatFactsAdapter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,10 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.catfacts.R
 import com.android.catfacts.databinding.CatFactsFragmentBinding
 import com.android.catfacts.ui.main.viewmodel.CatFactsViewModel
 import kotlinx.android.synthetic.main.cat_facts_fragment.*
+import kotlinx.android.synthetic.main.cat_facts_recycle_item.*
 
 class CatFactsFragment : Fragment() {
     private lateinit var viewModel: CatFactsViewModel
@@ -32,8 +35,12 @@ class CatFactsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.catFactsLiveData.observe(viewLifecycleOwner, Observer {
-            Log.d("onViewCreated: ", "$it")
+        viewModel.catFactsLiveData.observe(viewLifecycleOwner, Observer { facts ->
+            recycleView.also {
+                it.layoutManager = LinearLayoutManager(requireContext())
+                it.setHasFixedSize(true)
+                it.adapter = CatFactsAdapter(facts)
+            }
         })
         button.setOnClickListener {
             viewModel.fetchCatFacts()
