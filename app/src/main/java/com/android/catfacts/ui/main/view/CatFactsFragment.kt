@@ -1,6 +1,7 @@
 package com.android.catfacts.ui.main.view
 
 import CatFactsAdapter
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,9 @@ class CatFactsFragment : Fragment() {
                 it.setHasFixedSize(true)
                 it.adapter = CatFactsAdapter(facts) { catId -> openCatDetails(catId, view) }
             }
+        })
+        viewModel.loadingLiveData.observe(viewLifecycleOwner, Observer { loading ->
+            binding.loadingView.visibility = if (loading) View.VISIBLE else View.GONE
         })
         downloadFab.setOnClickListener {
             viewModel.fetchCatFacts()
