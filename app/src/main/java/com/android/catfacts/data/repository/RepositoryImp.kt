@@ -9,7 +9,7 @@ import retrofit2.Response
 
 class RepositoryImp(private val api: Api) : Repository {
 
-    private suspend fun <T : Any> call(apiCall: () -> Response<T>): Result<T> = try {
+    private suspend fun <T : Any> call(apiCall: suspend () -> Response<T>): Result<T> = try {
         val response = apiCall()
         if (response.isSuccessful) {
             Success(response.body()!!)
@@ -20,16 +20,12 @@ class RepositoryImp(private val api: Api) : Repository {
         Result.Error(ExceptionRepositoryFailure())
     }
 
-    override suspend fun getCatFacts(): Result<MutableList<String>> {
-        return try {
-            val response = api.getCatFacts()
-            if (response.isSuccessful) {
-                val data = response.body()!!
-                return Success(data.all.map { it._id }.toMutableList());
+    override suspend fun getCatFacts(): Result<MutableList<String>> =
+        when (val result = call { api.getCatFacts() }) {
+            is Success -> {
+                val data = result.data
+                Success(data.all.map { it._id }.toMutableList());
             }
-            return Result.Error(ServerFailure())
-        } catch (e: Exception) {
-            Result.Error(ServerFailure())
+            is Result.Error -> result
         }
-    }
 }
