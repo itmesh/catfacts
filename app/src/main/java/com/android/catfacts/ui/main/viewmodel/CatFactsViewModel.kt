@@ -2,13 +2,12 @@ package com.android.catfacts.ui.main.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.android.catfacts.data.repository.RepositoryImp
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 import com.android.catfacts.core.network.Result
-import com.android.catfacts.data.api.ApiFactory
+import com.android.catfacts.data.repository.Repository
 
-class CatFactsViewModel : ViewModel() {
+class CatFactsViewModel(private val repository : Repository) : ViewModel() {
 
     private val parentJob = Job()
 
@@ -17,7 +16,6 @@ class CatFactsViewModel : ViewModel() {
 
 
     private val scope = CoroutineScope(coroutineContext)
-    private val repository = RepositoryImp(ApiFactory.api)
 
     val catFactsLiveData = MutableLiveData<MutableList<String>>()
     val errorLiveData = MutableLiveData<Boolean>()
