@@ -34,15 +34,27 @@ class CatFactsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recycleViewLayout.visibility = View.GONE
+        emptyListLayout.visibility = View.VISIBLE
+        initDownloadButton.setOnClickListener {
+            viewModel.fetchCatFacts()
+        }
         viewModel.catFactsLiveData.observe(viewLifecycleOwner, Observer { facts ->
             recycleView.also {
-                it.layoutManager = LinearLayoutManager(requireContext())
-                it.setHasFixedSize(true)
-                it.adapter = CatFactsAdapter(facts) { catId -> openCatDetails(catId, view) }
+                if (facts.size > 0) {
+                    it.layoutManager = LinearLayoutManager(requireContext())
+                    it.setHasFixedSize(true)
+                    it.adapter = CatFactsAdapter(facts) { catId -> openCatDetails(catId, view) }
+                    recycleViewLayout.visibility = View.VISIBLE
+                    emptyListLayout.visibility = View.GONE
+                } else {
+                    recycleViewLayout.visibility = View.GONE
+                    emptyListLayout.visibility = View.VISIBLE
+                }
             }
         })
         viewModel.loadingLiveData.observe(viewLifecycleOwner, Observer { loading ->
-            binding.loadingView.visibility = if (loading) View.VISIBLE else View.GONE
+            loadingView.visibility = if (loading) View.VISIBLE else View.GONE
         })
         downloadFab.setOnClickListener {
             viewModel.fetchCatFacts()

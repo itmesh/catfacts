@@ -12,14 +12,12 @@ class CatFactsViewModel : ViewModel() {
 
     private val parentJob = Job()
 
-
     private val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.Default
 
 
     private val scope = CoroutineScope(coroutineContext)
     private val repository = RepositoryImp(ApiFactory.api)
-
 
     val catFactsLiveData = MutableLiveData<MutableList<String>>()
     val errorLiveData = MutableLiveData<Boolean>()

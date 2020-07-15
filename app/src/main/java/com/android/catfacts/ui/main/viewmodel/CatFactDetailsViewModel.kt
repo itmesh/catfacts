@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import  androidx.fragment.app.Fragment
 import com.android.catfacts.R
 import com.android.catfacts.databinding.CatFactDetailsFragmentBinding
-import kotlinx.android.synthetic.main.cat_facts_fragment.*
 
 class CatFactDetailsViewModel : Fragment() {
 
