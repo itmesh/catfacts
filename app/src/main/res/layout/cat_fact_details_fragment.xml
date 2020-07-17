@@ -29,7 +29,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/errorLayout"
+            android:id="@+id/errorDetailsLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
@@ -37,7 +37,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/errorText"
+                android:id="@+id/errorDetailsText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -47,7 +47,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/tryAgainButton"
+                android:id="@+id/tryAgainDetailsButton"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -57,7 +57,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/loadingView"
+            android:id="@+id/loadingViewDetails"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
