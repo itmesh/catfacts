@@ -7,7 +7,7 @@ import kotlin.coroutines.CoroutineContext
 import com.android.catfacts.core.network.Result
 import com.android.catfacts.data.repository.Repository
 
-class CatFactsViewModel(private val repository : Repository) : ViewModel() {
+class CatFactsViewModel(private val repository: Repository) : ViewModel() {
 
     private val parentJob = Job()
 
@@ -18,7 +18,7 @@ class CatFactsViewModel(private val repository : Repository) : ViewModel() {
     private val scope = CoroutineScope(coroutineContext)
 
     val catFactsLiveData = MutableLiveData<MutableList<String>>()
-    val errorLiveData = MutableLiveData<Boolean>()
+    val errorLiveData = MutableLiveData<String>()
     val loadingLiveData = MutableLiveData<Boolean>()
 
     fun fetchCatFacts() {
@@ -26,11 +26,10 @@ class CatFactsViewModel(private val repository : Repository) : ViewModel() {
         scope.launch {
             when (val result = repository.getCatFacts()) {
                 is Result.Success -> {
-                    errorLiveData.postValue(false)
                     catFactsLiveData.postValue(result.data)
                 }
                 is Result.Error -> {
-                    errorLiveData.postValue(true)
+                    errorLiveData.postValue(result.failure.failureMessage)
                 }
             }
 

@@ -12,5 +12,5 @@ interface Api {
     suspend fun getCatFacts(): Response<CatFactResponse>
 
     @GET("/facts/{id}")
-    suspend fun getFactDetails(@Path("id") id: String): List<CatFactDetailsResponse>
+    suspend fun getFactDetails(@Path("id") id: String): Response<CatFactDetailsResponse>
 }

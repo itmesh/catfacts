@@ -45,16 +45,27 @@ class CatFactsFragment : Fragment() {
                     it.adapter = CatFactsAdapter(facts) { catId -> openCatDetails(catId, view) }
                     recycleViewLayout.visibility = View.VISIBLE
                     emptyListLayout.visibility = View.GONE
+                    errorLayout.visibility = View.GONE
                 } else {
                     recycleViewLayout.visibility = View.GONE
                     emptyListLayout.visibility = View.VISIBLE
+                    errorLayout.visibility = View.GONE
                 }
             }
         })
         catFactsViewModel.loadingLiveData.observe(viewLifecycleOwner, Observer { loading ->
             loadingView.visibility = if (loading) View.VISIBLE else View.GONE
         })
+        catFactsViewModel.errorLiveData.observe(viewLifecycleOwner, Observer { error ->
+            recycleViewLayout.visibility = View.GONE
+            emptyListLayout.visibility = View.GONE
+            errorText.text = error
+            errorLayout.visibility = View.VISIBLE
+        })
         downloadFab.setOnClickListener {
+            catFactsViewModel.fetchCatFacts()
+        }
+        tryAgainButton.setOnClickListener {
             catFactsViewModel.fetchCatFacts()
         }
     }
@@ -62,6 +73,11 @@ class CatFactsFragment : Fragment() {
     private fun openCatDetails(catId: String, view: View) {
         val action = CatFactsFragmentDirections.listToDetails(catId)
         view.findNavController().navigate(action)
+    }
+
+    override fun onDestroy() {
+        catFactsViewModel.cancelAllRequest()
+        super.onDestroy()
     }
 
 }
